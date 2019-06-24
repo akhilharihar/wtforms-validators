@@ -233,9 +233,7 @@ class Integer:
         if message is None:
             message = field.gettext("Must be an Integer.")
 
-        try:
-            int(field.data)
-        except Exception:
+        if not str(field.data).isdigit():
             raise ValidationError(message)
 
 
