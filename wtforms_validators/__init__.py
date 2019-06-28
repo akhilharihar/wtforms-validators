@@ -217,7 +217,7 @@ class NotEqualTo:
             raise ValidationError(message % d)
 
 
-class Integer:
+class Integer(AbstractText):
     """
     Validates if the given field is integer.
 
@@ -225,16 +225,13 @@ class Integer:
         Error message to raise in case of a validation error.
     """
 
-    def __init__(self, message=None):
-        self.message = message
+    @property
+    def pattern(self):
+        return r"^[0-9]+$"
 
-    def __call__(self, form, field):
-        message = self.message
-        if message is None:
-            message = field.gettext("Must be an Integer.")
-
-        if not str(field.data).isdigit():
-            raise ValidationError(message)
+    @property
+    def message(self):
+        return "Should only contain numbers."
 
 
 class IsJson:
