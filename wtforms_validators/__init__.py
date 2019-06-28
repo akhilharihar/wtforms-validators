@@ -1,8 +1,9 @@
-from wtforms.validators import ValidationError, URL, Regexp
+from wtforms.validators import ValidationError, URL, Regexp, Email
 import re
 from dns.resolver import query
 import json
 from abc import ABC, abstractmethod
+from is_disposable_email import check
 
 __all__ = [
     'Accepted',
@@ -253,4 +254,20 @@ class IsJson:
         try:
             json.loads(field.data)
         except Exception:
+            raise ValidationError(message)
+
+
+class DisposableEmail(Email):
+    def __init__(self, message=None, invalid_message=None):
+        super().__init__(message=invalid_message)
+        self.d_message = message
+
+    def __call__(self, form, field):
+        super().__call__(form, field)
+
+        message = self.d_message
+        if message is None:
+            message = field.gettext("Invalid Email Address")
+
+        if check(field.data):
             raise ValidationError(message)

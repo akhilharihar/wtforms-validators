@@ -17,7 +17,8 @@ setup(
     python_requires='>=3.0',
     install_requires=[
         'WTForms',
-        'dnspython'
+        'dnspython',
+        'is_disposable_email'
     ],
     classifiers=[
         "Programming Language :: Python :: 3",
