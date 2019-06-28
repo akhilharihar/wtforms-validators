@@ -8,13 +8,15 @@ from is_disposable_email import check
 __all__ = [
     'Accepted',
     'ActiveUrl',
+    'AbstractText',
     'Alpha',
     'AlphaDash',
     'AlphaSpace',
     'AlphaNumeric',
     'NotEqualTo',
     'Integer',
-    'IsJson'
+    'IsJson',
+    'DisposableEmail'
 ]
 
 
@@ -258,6 +260,18 @@ class IsJson:
 
 
 class DisposableEmail(Email):
+    """
+    Validates if the email address does is not offered by
+    disposable email service provider.
+    By design, this validator also validates if the given
+    email address is a valid ones.
+
+    :param message:
+        Error message to raise if the email address is a disposable ones.
+
+    :param invalid_message:
+        Error message to raise if the email address is invalid.
+    """
     def __init__(self, message=None, invalid_message=None):
         super().__init__(message=invalid_message)
         self.d_message = message
@@ -267,7 +281,7 @@ class DisposableEmail(Email):
 
         message = self.d_message
         if message is None:
-            message = field.gettext("Invalid Email Address")
+            message = field.gettext("Invalid Email Address.")
 
         if check(field.data):
             raise ValidationError(message)
