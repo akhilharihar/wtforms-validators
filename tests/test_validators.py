@@ -9,7 +9,9 @@ from wtforms_validators import (
     AlphaSpace,
     AlphaNumeric,
     Integer,
-    NotEqualTo
+    NotEqualTo,
+    IsJson,
+    DisposableEmail
 )
 
 
@@ -164,5 +166,44 @@ def test_not_equal_raises(
     other_field.data = equal_val
     dummy_form["foo"] = other_field
     validator = NotEqualTo('foo')
+    with pytest.raises(ValidationError):
+        validator(dummy_form, dummy_field)
+
+
+@pytest.mark.parametrize(
+    'test_j', [
+        '{}',
+        "{\"213\":\"231\",\"test\":\"test1\", \
+            \"twt\":{\"213\":\"231\",\"test\":\"test1\"}}"
+    ]
+)
+def test_isjson(test_j, dummy_form, dummy_field):
+    validator = IsJson()
+    dummy_field.data = test_j
+    validator(dummy_form, dummy_field)
+
+
+@pytest.mark.parametrize('test_j', ['lorem', False, None])
+def test_isjson_raises(test_j, dummy_form, dummy_field):
+    validator = IsJson()
+    dummy_field.data = test_j
+    with pytest.raises(ValidationError):
+        validator(dummy_form, dummy_field)
+
+
+@pytest.mark.parametrize('test_v', [
+    'example@example.com',
+    'dsfjksdf@gmail.com'
+    ])
+def test_disposable_email(test_v, dummy_form, dummy_field):
+    validator = DisposableEmail()
+    dummy_field.data = test_v
+    validator(dummy_form, dummy_field)
+
+
+@pytest.mark.parametrize('test_v', ['lorem', 'dfskj@getnada.com'])
+def test_disposable_email_raises(test_v, dummy_form, dummy_field):
+    validator = DisposableEmail()
+    dummy_field.data = test_v
     with pytest.raises(ValidationError):
         validator(dummy_form, dummy_field)
