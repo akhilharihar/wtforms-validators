@@ -1,4 +1,5 @@
 import pytest
+from wtforms import Label
 from wtforms_validators import (
     ValidationError,
     Accepted,
@@ -6,7 +7,9 @@ from wtforms_validators import (
     Alpha,
     AlphaDash,
     AlphaSpace,
-    AlphaNumeric
+    AlphaNumeric,
+    Integer,
+    NotEqualTo
 )
 
 
@@ -105,5 +108,61 @@ def test_alpha_numeric(test_v, dummy_form, dummy_field):
 def test_alpha_numeric_raises(test_v, dummy_form, dummy_field):
     validator = AlphaNumeric()
     dummy_field.data = test_v
+    with pytest.raises(ValidationError):
+        validator(dummy_form, dummy_field)
+
+
+@pytest.mark.parametrize('test_v', ['123131', '23167', '1', '0'])
+def test_integer(test_v, dummy_form, dummy_field):
+    validator = Integer()
+    dummy_field.data = test_v
+    validator(dummy_form, dummy_field)
+
+
+@pytest.mark.parametrize('test_v', ['123.231', 'lorem', None, False])
+def test_integer_raises(test_v, dummy_form, dummy_field):
+    validator = Integer()
+    dummy_field.data = test_v
+    with pytest.raises(ValidationError):
+        validator(dummy_form, dummy_field)
+
+
+@pytest.mark.parametrize(
+    "field_val,equal_val", [
+        ("test", "invalid_field_name"),
+        ("bad_value", "foo")
+    ]
+)
+def test_not_equal(
+    field_val, equal_val, dummy_form, dummy_field, dummy_field_class
+):
+    """
+    It should raise ValidationError if the values are equal
+    """
+    dummy_field.data = field_val
+    other_field = dummy_field_class("test", label=Label("foo", "foo"))
+    other_field.data = equal_val
+    dummy_form["foo"] = other_field
+    validator = NotEqualTo('foo')
+    validator(dummy_form, dummy_field)
+
+
+@pytest.mark.parametrize(
+    "field_val,equal_val", [
+        ("test", "test"),
+        ("foo", "foo")
+    ]
+)
+def test_not_equal_raises(
+    field_val, equal_val, dummy_form, dummy_field, dummy_field_class
+):
+    """
+    It should raise ValidationError if the values are equal
+    """
+    dummy_field.data = field_val
+    other_field = dummy_field_class("test", label=Label("foo", "foo"))
+    other_field.data = equal_val
+    dummy_form["foo"] = other_field
+    validator = NotEqualTo('foo')
     with pytest.raises(ValidationError):
         validator(dummy_form, dummy_field)
