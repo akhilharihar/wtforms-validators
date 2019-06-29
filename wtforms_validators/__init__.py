@@ -261,7 +261,7 @@ class IsJson:
 
 class DisposableEmail(Email):
     """
-    Validates if the email address does is not offered by
+    Validates if the email address is not offered by
     disposable email service provider.
     By design, this validator also validates if the given
     email address is a valid ones.
