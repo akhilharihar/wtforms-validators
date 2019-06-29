@@ -1,0 +1,22 @@
+dist: xenial
+language: python
+python:
+- '3.4'
+- '3.5'
+- '3.6'
+- '3.7'
+install:
+- pip install WTForms dnspython is_disposable_email
+script:
+- pytest
+deploy:
+  provider: pypi
+  user: harihar
+  password:
+    secure: tUvovGmcca07UDSyOZeuCZNmROfmz+PTDXzO8ijdwPFQuSDd/3gwGok3XdRQobJYtIDXyYdDGqdTIAMAFSb1VfxXrya2uk5d92/aSF/VNQM+OXhln116Icq/Ne++gPsxrYBPhsQ/g3soZf/WP39381LT4ILv3Wov4Qmh5bbfDJAQ+OexCvTeotG8hXIhBJCb7PbWOdxYDj5EwwP7CAzr/oWmBjuK0pxn62PvgcUyRJPuAV5fUxWOM+oVjZTXGW+NaB1T42GKvjpCkN1EPsOBns27KeDnV0CF+CfcPO5Ptpu5ELBrg+apUr45yeQ21aTtStY9KMZJRw1qoom8qBc80VmjqNWGKDX8h669jbrmnuqcegGRDFIEAPaU822HexPuQhAoOAhxsd4xPuhT5nr/C49nUnq9NUGUwvZfmW0TsGHMZ2Yz+/4LCHgA79psk+9kUWr59YGM3HCW/lJ0WHcFGFbkhlW3V3Un0BhnJI4eDpOMck8z87KFGRTaO1cXQT7ZYo+5KwfsIFZ4vLHsR/Iuad0PJPFZzd/ST0tjnOyX8yihqLyCnAE2NvO4hKDtRPbcnDPvXSj2v+uh3b4TRe5LSFKjsKDGYi4ID7gr1+vIMwceU2+Kkx6tIDFDaSF+69uXuTWiX6+DEY1Jpw99vzAscF//LHch05vcj4elcLi9m2g=
+  on:
+    tags: true
+    branch: master
+  skip_existing: true
+  skip_cleanup: true
+  distributions: sdist bdist_wheel
