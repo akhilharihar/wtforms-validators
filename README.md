@@ -1,5 +1,5 @@
 # wtforms-validators
-This package does not replace the wtforms builtin validators, instead it provides few validators which are not provided in wtforms package that are frequently used in web applications. 
+Additional validators for wtforms used in web applications frequently.
 
 ## Installation
 ```
@@ -19,7 +19,7 @@ pip install wtforms-validators
 - [IsJson](#IsJson)
 - [DisposableEmail](#DisposableEmail)
 
-__Examples__ :
+__Examples__ :
 
 ```
 from wtforms_validators import ActiveUrl, Alpha
@@ -30,59 +30,53 @@ class SignupForm(Form):
     url = StringField('profile url', [DataRequired(), ActiveUrl()])
 ```
 
-You can also use wild card to import all validators from this package.
-
-```
-from wtforms_validators import *
-```
-
 ### Accepted:
-Validates if the field is either yes, on, 1, true or `True`. Can be used for validating terms of service, opt ins etc.,
+Validates if the field is yes, on, 1, true or `True`. Can be used for validating terms of service, opt-ins etc.,
 
-Parameters: 
+Parameters:
 * message - (optional) - Error message to raise in case of a validation error.
 
 ### ActiveUrl:
-Validates if the url is active by checking A or AAAA dns records.
+Validates if the URL is active by checking A or AAAA DNS records.
 
-Parameters: 
+Parameters:
 * message - (optional) - Error message to raise in case of a validation error.
 
 ### Alpha:
-The field under validation must be entirely of alphabetic characters.
+Validates the field to include alphabetic characters only.
 
-Parameters: 
+Parameters:
 * message - (optional) - Error message to raise in case of a validation error.
 
 ### AlphaDash:
-The field under validation must be entirely of alphabets and dash(`-`).
+Validates the field to only include alphabets and dash(`-`).
 
-Parameters: 
+Parameters:
 * message - (optional) - Error message to raise in case of a validation error.
 
 ### AlphaSpace:
-The field under validation must be entirely of alphabets and spaces. 
+Validates the field to only include alphabets and spaces.
 
-`Note:` The data in field is not stripped, so the field will be valid even if it only contains spaces. You will need to either add a filter to strip input data or add another validator to check if the field does not contain only spaces.
+`Note:` This validator does not strip the field's value, so input containing only spaces will still be valid. You will either have to register a filter to strip input data or add another validator to check if the field cannot contain only spaces.
 
-Parameters: 
+Parameters:
 * message - (optional) - Error message to raise in case of a validation error.
 
 ### AlphaNumeric:
-The field under validation must be entirely of alphabets and numbers.
+Validates the field to only include alphabets and numbers.
 
 Parameters:
 * message - (optional) - Error message to raise in case of a validation error.
 
 ### NotEqualTo:
-validates if the value of the field under validation is not equal to other field in the form.
+Checks the field under validation is not equal to another field.
 
 Parameters:
-* fieldname – The name of the other field.
+* fieldname – The name of the other field.
 * message - (optional) - Error message to raise in case of a validation error.
 
 ### Integer
-The field under validation must be entirely of numbers.
+Validates the field to only include numbers.
 
 Parameters:
 * message - (optional) - Error message to raise in case of a validation error.

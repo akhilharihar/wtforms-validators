@@ -6,9 +6,9 @@ with open("README.md", 'r') as fh:
 
 setup(
     name='wtforms-validators',
-    version='0.1.0',
+    version='1.0.0',
     author='Akhil Harihar',
-    author_email="akhil01@live.com",
+    author_email="hariharakhil@gmail.com",
     description="Validators for wtforms package",
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -26,6 +26,6 @@ setup(
         "Operating System :: OS Independent",
         "Environment :: Web Environment",
         "Intended Audience :: Developers",
-        "Development Status :: 3 - Alpha"
+        "Development Status :: 5 - Production/Stable"
     ]
 )
